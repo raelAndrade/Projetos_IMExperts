@@ -1,0 +1,80 @@
+<!-- Function Autocomplete with primeng-->
+<div class="ui-g">
+    <div class="ui-g-12 ui-fluid ui-helper-clearfix">
+        <form class="form-inline" autocomplete="off">
+            <p-autoComplete [suggestions]="results" (completeMethod)="search()" [(ngModel)]="idolRequest.queryText" [minLength]="1" name="queryText" placeholder="Pesquisar" [immutable]="false" [size]="100" id="auto" #auto (keyup)="sendToIDOL()">
+            </p-autoComplete>
+        </form>
+    </div>
+</div>
+
+<!-- Spell Check -->
+<section>
+    <br>
+    <div *ngIf="!isSpellcheck">
+        <p>Você quiz dizer:
+            <button type="button" class="btn btn-link" (click)="sendToIDOL()">{{idolResponse.spellcheck}}</button>
+        </p>
+    </div>
+</section>
+
+<!-- Show content - Title and summary -->
+<section *ngIf="!isTable">
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Título</th>
+                <th scope="col">Sumário</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let doc of idolResponse.documents">
+                <td><a href (click)="openModal(doc.id)" data-toggle="modal" data-target="#exampleModal">{{doc.title}}</a></td>
+                <td>{{doc.summary}}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- <nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav> -->
+
+<!----------- Modal ------------>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Conteudo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <span *ngFor="let cont of idolResponseContent.drecontent">
+          <p>{{cont}}</p>
+        </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar conteudo</button>
+            </div>
+        </div>
+    </div>
+</div>
